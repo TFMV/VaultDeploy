@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Vault 2.0 API</title>
+</head>
+<body>
+    <h1>Data Vault 2.0 API</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file">Upload CSV:</label>
+        <input type="file" id="file" name="file" required>
+        <button type="submit">Upload</button>
+    </form>
+    <form action="/configure" method="post">
+        <h2>Configuration</h2>
+        <label for="schema">Schema Name:</label>
+        <input type="text" id="schema" name="schema" required><br>
+        <h3>Hubs</h3>
+        <div id="hubs">
+            <div>
+                <label for="hub_name">Hub Name:</label>
+                <input type="text" id="hub_name" name="hubs[0][name]" required>
+                <label for="hub_columns">Columns (comma-separated):</label>
+                <input type="text" id="hub_columns" name="hubs[0][columns]" required>
+            </div>
+        </div>
+        <button type="button" onclick="addHub()">Add Hub</button><br>
+        <h3>Links</h3>
+        <div id="links">
+            <div>
+                <label for="link_name">Link Name:</label>
+                <input type="text" id="link_name" name="links[0][name]" required>
+                <label for="link_columns">Columns (comma-separated):</label>
+                <input type="text" id="link_columns" name="links[0][columns]" required>
+            </div>
+        </div>
+        <button type="button" onclick="addLink()">Add Link</button><br>
+        <h3>Satellites</h3>
+        <div id="satellites">
+            <div>
+                <label for="satellite_name">Satellite Name:</label>
+                <input type="text" id="satellite_name" name="satellites[0][name]" required>
+                <label for="satellite_columns">Columns (comma-separated):</label>
+                <input type="text" id="satellite_columns" name="satellites[0][columns]" required>
+            </div>
+        </div>
+        <button type="button" onclick="addSatellite()">Add Satellite</button><br>
+        <button type="submit">Submit Configuration</button>
+    </form>
+    <script>
+        let hubCount = 1;
+        let linkCount = 1;
+        let satelliteCount = 1;
+
+        function addHub() {
+            const hubsDiv = document.getElementById('hubs');
+            const newHubDiv = document.createElement('div');
+            newHubDiv.innerHTML = `
+                <label for="hub_name">Hub Name:</label>
+                <input type="text" id="hub_name" name="hubs[${hubCount}][name]" required>
+                <label for="hub_columns">Columns (comma-separated):</label>
+                <input type="text" id="hub_columns" name="hubs[${hubCount}][columns]" required>
+            `;
+            hubsDiv.appendChild(newHubDiv);
+            hubCount++;
+        }
+
+        function addLink() {
+            const linksDiv = document.getElementById('links');
+            const newLinkDiv = document.createElement('div');
+            newLinkDiv.innerHTML = `
+                <label for="link_name">Link Name:</label>
+                <input type="text" id="link_name" name="links[${linkCount}][name]" required>
+                <label for="link_columns">Columns (comma-separated):</label>
+                <input type="text" id="link_columns" name="links[${linkCount}][columns]" required>
+            `;
+            linksDiv.appendChild(newLinkDiv);
+            linkCount++;
+        }
+
+        function addSatellite() {
+            const satellitesDiv = document.getElementById('satellites');
+            const newSatelliteDiv = document.createElement('div');
+            newSatelliteDiv.innerHTML = `
+                <label for="satellite_name">Satellite Name:</label>
+                <input type="text" id="satellite_name" name="satellites[${satelliteCount}][name]" required>
+                <label for="satellite_columns">Columns (comma-separated):</label>
+                <input type="text" id="satellite_columns" name="satellites[${satelliteCount}][columns]" required>
+            `;
+            satellitesDiv.appendChild(newSatelliteDiv);
+            satelliteCount++;
+        }
+    </script>
+</body>
+</html>

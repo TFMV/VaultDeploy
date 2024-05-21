@@ -1,0 +1,19 @@
+postgres:
+  host: "localhost"
+  port: 5432
+  user: "your_username"
+  password: "your_password"
+  dbname: "your_database"
+  sslmode: "disable"
+
+data_vault:
+  schema: "your_schema"
+  hubs:
+    - name: "your_hub_name"
+      columns: ["column1", "column2", "column3"]
+  links:
+    - name: "your_link_name"
+      columns: ["column1", "column2", "column3"]
+  satellites:
+    - name: "your_satellite_name"
+      columns: ["column1", "column2", "column3"]
