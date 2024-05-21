@@ -1,0 +1,62 @@
+@startuml
+
+class Hub_Customer {
+    +CustomerID: String <<Business Key>> = "CUST123"
+    +SurrogateKey: Int = 1
+    +LoadDate: Date = "2023-05-01"
+    +RecordSource: String = "CRM System"
+}
+
+class Hub_Product {
+    +ProductID: String <<Business Key>> = "PROD456"
+    +SurrogateKey: Int = 2
+    +LoadDate: Date = "2023-05-01"
+    +RecordSource: String = "ERP System"
+}
+
+class Hub_Order {
+    +OrderID: String <<Business Key>> = "ORD789"
+    +SurrogateKey: Int = 3
+    +LoadDate: Date = "2023-05-01"
+    +RecordSource: String = "Order Management System"
+}
+
+class Link_OrderProduct {
+    +SurrogateKey: Int = 4
+    +OrderSurrogateKey: Int = 3
+    +ProductSurrogateKey: Int = 2
+    +LoadDate: Date = "2023-05-01"
+    +RecordSource: String = "Order Management System"
+}
+
+class Satellite_CustomerDetails {
+    +SurrogateKey: Int = 5
+    +CustomerSurrogateKey: Int = 1
+    +Name: String = "John Doe"
+    +Address: String = "123 Main St, Anytown, USA"
+    +PhoneNumber: String = "555-1234"
+    +Email: String = "johndoe@example.com"
+    +LoadDate: Date = "2023-05-01"
+    +EndDate: Date = "NULL"
+    +RecordSource: String = "CRM System"
+}
+
+class Satellite_ProductDetails {
+    +SurrogateKey: Int = 6
+    +ProductSurrogateKey: Int = 2
+    +ProductName: String = "Widget"
+    +Description: String = "High-quality widget"
+    +Price: Float = 19.99
+    +LoadDate: Date = "2023-05-01"
+    +EndDate: Date = "NULL"
+    +RecordSource: String = "ERP System"
+}
+
+Hub_Customer --> Link_OrderProduct : "One to Many"
+Hub_Product --> Link_OrderProduct : "One to Many"
+Hub_Order --> Link_OrderProduct : "One to Many"
+
+Hub_Customer --> Satellite_CustomerDetails : "One to Many"
+Hub_Product --> Satellite_ProductDetails : "One to Many"
+
+@enduml

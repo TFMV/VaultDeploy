@@ -2,7 +2,7 @@
 
 VaultDeploy is a user-friendly API designed to deploy Data Vault 2.0 models into PostgreSQL from CSV files, simplifying schema management and data integration.
 
-![FuzzyMatchFinder](assets/vaultdeploy.webp)
+![VaultDeploy](assets/vaultdeploy.webp)
 
 ## Introduction
 
@@ -47,6 +47,10 @@ Data Vault 2.0 is a methodology and architecture for data warehousing that addre
 - **Data Integration:** Seamlessly integrate data from multiple sources while maintaining historical accuracy and auditability.
 - **Business Intelligence:** Provide a solid foundation for business intelligence and analytics by ensuring data consistency and reliability.
 - **Regulatory Compliance:** Ensure compliance with data governance and regulatory requirements through robust auditing and historical tracking.
+
+## Example Deployment
+
+![VaultDeploy](assets/vault.png)
 
 ## Getting Started
 
