@@ -90,7 +90,20 @@ func UploadCSVHandler(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "CSV processed successfully"})
+	// Insert records into the appropriate Data Vault tables
+	for _, record := range records {
+		// Example: Insert into the first hub's table
+		if len(config.DataVault.Hubs) > 0 {
+			hubConfig := config.DataVault.Hubs[0]
+			err = services.InsertRecord(dbpool, schema, hubConfig.Name, hubConfig.Columns, record)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert record into hub"})
+				return
+			}
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "CSV processed and records inserted successfully"})
 }
 
 func ConfigureHandler(c *gin.Context) {
