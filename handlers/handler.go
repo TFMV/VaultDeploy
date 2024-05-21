@@ -13,30 +13,35 @@ import (
 )
 
 func UploadCSVHandler(c *gin.Context) {
+	// Get the uploaded file
 	file, err := c.FormFile("file")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No file is received"})
 		return
 	}
 
+	// Save the uploaded file
 	filePath := filepath.Join(".", file.Filename)
 	if err := c.SaveUploadedFile(file, filePath); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file"})
 		return
 	}
 
+	// Process the CSV file
 	records, err := services.ProcessCSV(filePath)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process CSV"})
 		return
 	}
 
+	// Load the configuration
 	config, err := utils.LoadConfig("config.yaml")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to load config"})
 		return
 	}
 
+	// Connect to the database
 	dbpool, err := utils.ConnectDatabase(config)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to connect to database"})
@@ -46,6 +51,7 @@ func UploadCSVHandler(c *gin.Context) {
 
 	schema := config.DataVault.Schema
 
+	// Create or update Hubs
 	for _, hubConfig := range config.DataVault.Hubs {
 		hub := models.Hub{
 			TableName: hubConfig.Name,
@@ -58,6 +64,7 @@ func UploadCSVHandler(c *gin.Context) {
 		}
 	}
 
+	// Create or update Links
 	for _, linkConfig := range config.DataVault.Links {
 		link := models.Link{
 			TableName: linkConfig.Name,
@@ -70,6 +77,7 @@ func UploadCSVHandler(c *gin.Context) {
 		}
 	}
 
+	// Create or update Satellites
 	for _, satelliteConfig := range config.DataVault.Satellites {
 		satellite := models.Satellite{
 			TableName: satelliteConfig.Name,
